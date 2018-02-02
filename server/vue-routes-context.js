@@ -1,14 +1,19 @@
 export default {
     'default': {
         meta: `
-        <meta description="vuejs server side render">
+        <meta description="https://github.com/javimosch/ssr-vuejs-boilerplate">
       `
     },
     '/': {
-        title: "ASD",
-        meta: ``
+        title: "home",
+        meta: `
+            <meta home>
+        `
     },
     '/about':{
-        title:'CHE'
+        title:'about',
+        meta: `
+            
+        `
     }
 };

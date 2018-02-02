@@ -22,7 +22,7 @@ export async function addHTML5RedirectMode(app) {
         response.write(Handlebars.compile(html)({
             title: 'DEV',
             meta: `
-        <meta description="vuejs server side render">
+        
       `
         }));
         response.end();
@@ -43,22 +43,21 @@ export async function addVueServerRendering(server) {
         const bundle = requireAgain('../dist/server.bundle.js');
 
         bundle.default({ url: req.url }).then((app) => {
-            //context to use as data source
-            //in the template for interpolation
-            let context = {
-                title: req.url.substring(req.url.lastIndexOf('/')),
-                meta: `
-        <meta description="vuejs server side render">
-      `
-            };
+           
             
-            context = Object.assign({
+            let context = Object.assign({
             }, routesContext.default);
             
             let currentRoute = req.url.substring(req.url.lastIndexOf('/'));
-            context = Object.assign(context, routesContext[currentRoute]||{});
+            let routeContext = routesContext[currentRoute]||{};
+            Object.keys(context).forEach(key => {
+                if(typeof context[key] === 'string'){
+                    routeContext[key] = context[key] + routeContext[key];
+                }
+            });
+            
 
-            renderer.renderToString(app, context, function(err, html) {
+            renderer.renderToString(app, routeContext, function(err, html) {
                 if (err) {
                     if (err.code === 404) {
                         res.status(404).end('Page not found')
