@@ -6,11 +6,11 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "nodemon --exec \"cross-env NODE_ENV=development babel-node ./server --presets env\" --watch server --ext js,html,vue,css,scss",
+    "dev": "nodemon --exec \"npx cross-env NODE_ENV=development babel-node ./server --presets env\" --watch server --ext js,html,vue,css,scss",
     "start": "npm run build && npm run start-server",
     "build": "npm run build-client && npm run build-server",
-    "build-client": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "build-server": "cross-env NODE_ENV=production webpack --config webpack.prod.config.js --progress --hide-modules",
+    "build-client": "npx cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build-server": "npx cross-env NODE_ENV=production webpack --config webpack.prod.config.js --progress --hide-modules",
     "start-server": "babel server -s -D -d dist --presets env && node dist"
   },
   "dependencies": {
