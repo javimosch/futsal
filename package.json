@@ -1,0 +1,51 @@
+{
+  "name": "futsal",
+  "description": "A Vue.js project",
+  "version": "1.0.0",
+  "author": "Javier Leandro Arancibia <arancibiajav@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon --exec \"cross-env NODE_ENV=development babel-node ./server --presets env\" --watch server --ext js,html,vue,css,scss",
+    "start": "npm run build && npm run start-server",
+    "build": "npm run build-client && npm run build-server",
+    "build-client": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build-server": "cross-env NODE_ENV=production webpack --config webpack.prod.config.js --progress --hide-modules",
+    "start-server": "babel server -s -D -d dist --presets env && node dist"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "express": "^4.16.2",
+    "handlebars": "^4.0.11",
+    "nodemon": "^1.14.12",
+    "regenerator-runtime": "^0.11.1",
+    "require-again": "^2.0.0",
+    "sander": "^0.6.0",
+    "vue": "^2.5.11",
+    "vue-router": "^3.0.1",
+    "vue-server-renderer": "^2.5.13",
+    "webpack-dev-middleware": "^2.0.4",
+    "webpack-hot-middleware": "^2.21.0",
+    "webpack-merge": "^4.1.1"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.4",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
+    "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.4.4",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
+  }
+}
