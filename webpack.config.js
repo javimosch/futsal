@@ -9,8 +9,7 @@ module.exports = {
     filename: 'build.js'
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.css$/,
         use: [
           'vue-style-loader',
@@ -74,6 +73,9 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js'
     },
     extensions: ['*', '.js', '.vue', '.json']
+  },
+  resolveLoader: {
+    root: path.join(__dirname, 'node_modules')
   },
   devServer: {
     historyApiFallback: true,
