@@ -4,10 +4,13 @@ const app = express();
 const path = require('path');
 import configureRoutes from './routes';
 import runWebpack from './webpack';
+import setMiddlewares from './middlewares';
 
 (async() => {
+  
+  setMiddlewares(app);
 
-  configureRoutes(app);
+  await configureRoutes(app);
 
   if (process.env.NODE_ENV === 'development') {
     runWebpack(app);

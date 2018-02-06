@@ -1,14 +1,71 @@
 <template>
-  <div id="app">
-    Hello World!
-    <p>
-      <router-link to="/">Go To Home</router-link>
-      <router-link to="/about">Go To About 3</router-link>
-    </p>
-    <router-view></router-view>
+  <div>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Auth0 - Vue</a>
+
+          <router-link :to="'/'"
+            class="btn btn-primary btn-margin">
+              Home
+          </router-link>
+
+          <button
+            class="btn btn-primary btn-margin"
+            v-if="!authenticated"
+            @click="login()">
+              Log In
+          </button>
+
+          <button
+            class="btn btn-primary btn-margin"
+            v-if="authenticated"
+            @click="logout()">
+              Log Out
+          </button>
+
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <router-view 
+        :auth="auth" 
+        :authenticated="authenticated">
+      </router-view>
+    </div>
   </div>
 </template>
+
 <script>
-  export default {
-  };
+import AuthService from './auth/AuthService'
+
+const auth = new AuthService()
+
+const { login, logout, authenticated, authNotifier } = auth
+
+export default {
+  name: 'app',
+  data () {
+    authNotifier.on('authChange', authState => {
+      this.authenticated = authState.authenticated
+    })
+    return {
+      auth,
+      authenticated
+    }
+  },
+  methods: {
+    login,
+    logout
+  }
+}
 </script>
+
+<style>
+
+
+.btn-margin {
+  margin-top: 7px
+}
+</style>
