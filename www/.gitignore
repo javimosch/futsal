@@ -1,2 +1,5 @@
 www/static
 www/index.html
+build.js*
+*bundle*
+*.svg
