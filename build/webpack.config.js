@@ -1,11 +1,12 @@
 var path = require('path')
 var webpack = require('webpack')
-
+const DIST_FOLDER = 'www/dist';
+const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
   entry: './src/entry-client.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    path: path.join(process.cwd(), DIST_FOLDER),
+    publicPath: `/${DIST_FOLDER}/`,
     filename: 'build.js'
   },
   module: {
@@ -75,9 +76,13 @@ module.exports = {
     extensions: ['*', '.js', '.vue', '.json']
   },
   resolveLoader: {
-    modules: [path.join(__dirname, 'node_modules')]
+    modules: [path.join(process.cwd(), 'node_modules')]
   },
   devServer: {
+    hot: isProduction,
+    inline: isProduction,
+    //publicPath:'/dist/',
+    //contentBase: path.join(__dirname, "www"),
     historyApiFallback: true,
     noInfo: true,
     overlay: true
@@ -88,7 +93,7 @@ module.exports = {
   devtool: '#eval-source-map'
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (isProduction) {
   module.exports.devtool = '#source-map'
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([

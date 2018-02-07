@@ -1,9 +1,10 @@
+var path = require('path');
 let isProduction = process.env.NODE_ENV === 'development';
 
 export default function(app) {
     var webpack = require('webpack');
     
-    var webpackConfig = require('../webpack.dev.config');
+    var webpackConfig = require(path.join(process.cwd(),'build/webpack.dev.config'));
     var compiler = webpack(webpackConfig);
 
     if (!webpackConfig.output || !webpackConfig.output.publicPath) {

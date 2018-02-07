@@ -1,3 +1,5 @@
+console.log('MAIN')
+
 import "regenerator-runtime/runtime";
 
 // main.js

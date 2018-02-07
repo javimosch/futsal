@@ -2,6 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.config')
+const DIST_FOLDER = 'www/dist';
 var webpackConfig = merge(baseWebpackConfig, {
   target: 'node',
   entry: {
@@ -9,11 +10,11 @@ var webpackConfig = merge(baseWebpackConfig, {
   },
   devtool: false,
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, `./${DIST_FOLDER}`),
     filename: 'server.bundle.js',
     libraryTarget: 'commonjs2'
   },
-  externals: Object.keys(require('./package.json').dependencies),
+  externals: Object.keys(require('../package.json').dependencies),
   plugins: [
     new webpack.DefinePlugin({
       'process.env': 'production'

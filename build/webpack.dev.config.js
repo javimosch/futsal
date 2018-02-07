@@ -4,8 +4,8 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.config')
 var webpackConfig = merge(baseWebpackConfig, {
   watch: true,
-  watchOptions:{
-    ignored: [/node_modules/,'/server/*']
+  watchOptions: {
+    ignored: [/node_modules/, '/server/*']
   },
   entry: [
     'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',

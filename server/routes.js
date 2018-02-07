@@ -6,14 +6,14 @@ import Handlebars from 'handlebars';
 import * as sander from 'sander';
 import routesContext from './vue-routes-context';
 const isProduction = process.env.NODE_ENV === 'development';
-
-
+const DIST_FOLDER = 'www/dist';
 
 export async function addHTML5RedirectMode(app) {
 
-    let html = await sander.readFile(path.join(process.cwd(), '/index.html'));
+    
 
     app.get('*', async function(request, response, next) {
+        let html = await sander.readFile(path.join(process.cwd(), '/index.html'));
 
         var ignore = ['/api/', '.js', '.css', '.jpg', '_hmr','.json'];
 
@@ -42,11 +42,11 @@ export async function addVueServerRendering(server) {
         template: fs.readFileSync('./index.html', 'utf-8')
     });
 
-    server.use('/dist', express.static(path.join(process.cwd(), 'dist')));
+    //server.use(`/dist`, express.static(path.join(process.cwd(), DIST_FOLDER)));
 
     server.get('*', (req, res) => {
 
-        const bundle = requireAgain('../dist/server.bundle.js');
+        const bundle = requireAgain(path.join(process.cwd(), DIST_FOLDER, 'server.bundle.js'));
 
         bundle.default({ url: req.url }).then((app) => {
 
@@ -82,7 +82,8 @@ export async function addVueServerRendering(server) {
 }
 
 export default async function(app) {
-
+    
+    //app.use('/', express.static(path.join(process.cwd(), 'www')));
     app.use('/static', express.static(path.join(process.cwd(), 'static')));
 
     if (process.env.NODE_ENV === 'development') {

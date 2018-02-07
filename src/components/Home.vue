@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>HOME</h2>
+    <h2>HOME3</h2>
     <h4 v-if="authenticated">
         You are logged in!
     </h4>
