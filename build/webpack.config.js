@@ -6,7 +6,8 @@ module.exports = {
   entry: './src/entry-client.js',
   output: {
     path: path.join(process.cwd(), DIST_FOLDER),
-    publicPath: `/${DIST_FOLDER}/`,
+    //publicPath: `/${DIST_FOLDER}/`,
+    publicPath: '/dist',
     filename: 'build.js'
   },
   module: {
@@ -66,12 +67,17 @@ module.exports = {
         options: {
           name: '[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file-loader?name=/[name].[ext]'
       }
     ]
   },
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm.js',
+      '$css':path.join(process.cwd(),'src/css')
     },
     extensions: ['*', '.js', '.vue', '.json']
   },

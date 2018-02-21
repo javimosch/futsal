@@ -1,0 +1,11 @@
+$max_container_width: 700px;
+
+
+.content_wrapper {
+    display: block;
+    min-width: 100%;
+    max-width: $max_container_width;
+    @media only screen and (min-width: 1200px) {
+        min-width: 1200px;
+    }
+}

@@ -1,3 +1,4 @@
+import console from './utils/tracer';
 const express = require('express');
 var requireAgain = require('require-again')
 const fs = require('fs');
@@ -8,14 +9,15 @@ import routesContext from './vue-routes-context';
 const isProduction = process.env.NODE_ENV === 'development';
 const DIST_FOLDER = 'www/dist';
 
+
 export async function addHTML5RedirectMode(app) {
 
-    
+
 
     app.get('*', async function(request, response, next) {
         let html = await sander.readFile(path.join(process.cwd(), '/index.html'));
 
-        var ignore = ['/api/', '.js', '.css', '.jpg', '_hmr','.json'];
+        var ignore = ['/api/', '.js', '.css', '.jpg', '_hmr', '.json'];
 
         for (var x = 0; x < ignore.length; x++) {
             if (request.url.indexOf(ignore[x]) !== -1) return next('route');
@@ -24,13 +26,17 @@ export async function addHTML5RedirectMode(app) {
         response.writeHead(200, { 'Content-Type': 'text/html' });
 
         html = html.toString('utf-8').replace('<!--vue-app-outlet-->', '<div id="app"></div>');
-
-        response.write(Handlebars.compile(html)({
+        
+        let compiled = Handlebars.compile(html)({
             title: 'DEV',
             meta: `
         
       `
-        }));
+        });
+        
+        compiled = compiled.replace(new RegExp('http://', 'g'), 'https://');
+        
+        response.write(compiled);
         response.end();
     });
 }
@@ -82,9 +88,31 @@ export async function addVueServerRendering(server) {
 }
 
 export default async function(app) {
-    
+
     //app.use('/', express.static(path.join(process.cwd(), 'www')));
     app.use('/static', express.static(path.join(process.cwd(), 'static')));
+
+    //Api routes
+    let apiPath = path.join(process.cwd(), 'server/api');
+    let apiFiles = await sander.readdir(apiPath);
+
+    apiFiles.forEach(file => {
+        if (file.indexOf('.js') !== -1) {
+            let req = require(path.join(process.cwd(), 'server/api', file));
+            req.default(app);
+        }
+        else {
+            let collectionFolderPath = path.join(apiPath, file);
+            let subfolderRoutes = sander.readdirSync(collectionFolderPath).filter(fn => fn.indexOf('route') !== -1);
+            subfolderRoutes.forEach(collectionRoutesFile => {
+                let req = require(path.join(collectionFolderPath, collectionRoutesFile));
+                req.default(app);
+                console.log('Adding route file', collectionRoutesFile);
+            });
+        }
+    });
+
+    //Application
 
     if (process.env.NODE_ENV === 'development') {
         await addHTML5RedirectMode(app);
@@ -92,12 +120,5 @@ export default async function(app) {
     else {
         await addVueServerRendering(app);
     }
-
-    let apiFiles = await sander.readdir(path.join(process.cwd(), 'server/api'));
-
-    apiFiles.forEach(file => {
-        let req = require(path.join(process.cwd(), 'server/api', file));
-        req.default(app);
-    });
 
 }

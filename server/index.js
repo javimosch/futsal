@@ -1,3 +1,4 @@
+import console from './utils/tracer';
 import "regenerator-runtime/runtime";
 const express = require('express');
 const app = express();
@@ -5,8 +6,13 @@ const path = require('path');
 import configureRoutes from './routes';
 import runWebpack from './webpack';
 import setMiddlewares from './middlewares';
+import database from './mongoose';
+
+
 
 (async() => {
+ 
+  await database.initialize();
   
   setMiddlewares(app);
 
@@ -18,9 +24,9 @@ import setMiddlewares from './middlewares';
 
   const PORT = process.env.PORT || 8080;
   app.listen(PORT, function() {
-    console.log('Server up at ', `https://0.0.0.0:${PORT}`);
+    console.info('Server up at ', `https://0.0.0.0:${PORT}`);
   });
-
+  
 })().catch(err => {
   console.log(err.stack);
   process.exit(1);

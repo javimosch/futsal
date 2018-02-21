@@ -6,7 +6,12 @@
   {{{ meta }}}
   <!-- use double mustache for HTML-escaped interpolation -->
   <title>{{ title }}</title>
+  
+  <link type="text/css" rel="stylesheet" href="http://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
+<link type="text/css" rel="stylesheet" href="http://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
 
+
+  <script defer src="http://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
   <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
@@ -14,6 +19,9 @@
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta http-equiv="Content-Security-Policy" content="default-src *; img-src * data: ;font-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-eval'">
+  
 </head>
 
 <body>
